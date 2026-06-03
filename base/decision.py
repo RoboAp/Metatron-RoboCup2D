@@ -1,17 +1,9 @@
 from base import goalie_decision
 from base.strategy_formation import StrategyFormation
 from base.set_play.bhv_set_play import Bhv_SetPlay
-from base.bhv_kick import BhvKick
-from base.bhv_move import BhvMove
-from lib.action.neck_scan_field import NeckScanField
-from lib.action.neck_scan_players import NeckScanPlayers
-from lib.action.neck_turn_to_ball import NeckTurnToBall
-from lib.action.neck_turn_to_ball_or_scan import NeckTurnToBallOrScan
-from lib.action.scan_field import ScanField
+from base.bhv_go_to_ball_and_kick import BhvGoToBallAndKick
 from lib.debug.debug import log
-from lib.messenger.ball_pos_vel_messenger import BallPosVelMessenger
-from lib.messenger.player_pos_unum_messenger import PlayerPosUnumMessenger
-from lib.rcsc.types import GameModeType, ViewWidth, UNUM_UNKNOWN
+from lib.rcsc.types import GameModeType
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -39,9 +31,4 @@ def get_decision(agent: 'PlayerAgent'):
                                  f'ka {wm.self().player_type().kickable_area()} '
                                  f'seen pos count {wm.ball().seen_pos_count()} '
                                  f'is? {wm.self()._kickable}')
-    if wm.self().is_kickable():
-        return BhvKick().execute(agent)
-    if BhvMove().execute(agent):
-        return True
-    log.os_log().warn("NO ACTION, ScanFIELD")
-    return ScanField().execute(agent)
+    return BhvGoToBallAndKick().execute(agent)
