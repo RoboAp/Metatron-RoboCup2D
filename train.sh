@@ -2,12 +2,13 @@
 
 export PYTHONPATH="${PYTHONPATH}:`pwd`"
 
-#./base/main_player.py g &
-
+TEAM_NAME="treino"
+trap 'echo -e; pkill -f main_treino.py; exit 0' INT
 i=1
 while [ $i -le 11 ] ; do
-    ./base/main_trainer.py &
-    sleep 0.01
-
-  i=`expr $i + 1`
+    python3 main_treino.py -t $TEAM_NAME &
+    sleep 0.5
+    i=`expr $i + 1`
 done
+
+

@@ -27,7 +27,7 @@ import sys
 
         
 def main():
-    if args.player:
+    if args.player:      
         agent = SamplePlayer()
     elif args.coach:
         agent = SampleCoach()

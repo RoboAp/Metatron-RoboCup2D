@@ -37,7 +37,7 @@ pids+=($!)
 sleep 1
 
 i=2
-while [ $i -le 11 ] ; do
+while [ $i -le 11] ; do
   $run_command $options --player &
   pids+=($!)
 
