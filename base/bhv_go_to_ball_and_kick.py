@@ -1,4 +1,3 @@
-from base.generator_pass import BhvPassGen
 from lib.action.go_to_point import GoToPoint
 from lib.action.intercept import Intercept
 from lib.action.neck_scan_players import NeckScanPlayers
@@ -8,8 +7,9 @@ from lib.action.scan_field import ScanField
 from lib.action.smart_kick import SmartKick
 from lib.debug.debug import log
 from lib.rcsc.server_param import ServerParam
+from lib.action.hold_ball import HoldBall
+from base.generator_pass import BhvPassGen
 from pyrusgeom.vector_2d import Vector2D
-
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -24,6 +24,7 @@ class BhvGoToBallAndKick:
     def execute(self, agent: 'PlayerAgent'):
         wm = agent.world()
         sp = ServerParam.i()
+        #terminal_debug = open('/dev/pts/4', 'w')
 
         if not wm.ball().pos_valid():
             log.debug_client().add_message('minimal_scan_ball')
@@ -31,17 +32,40 @@ class BhvGoToBallAndKick:
             return ScanField().execute(agent)
 
         if wm.self().is_kickable():
-            if self._should_shoot(wm, sp):
-                return self._shoot_to_best_goal_target(agent, sp)
+            target = sp.their_team_goal_pos()
+            first_speed = sp.ball_speed_max()
 
-            # Se o adversario esta perto, tenta aproveitar a logica de passe do grupo.
-            # Se nao houver passe seguro, volta para a conducao simples.
+            dist_gol = wm.self().pos().dist(target)
+            
             opp_min = wm.intercept_table().opponent_reach_cycle()
-            if opp_min < 5:
-                if self._try_pass_under_pressure(agent):
-                    return True
+            if dist_gol < 20:
+                SmartKick(target, 2, 2 * 0.6, 3).execute(agent)
+                        
+                #print(f"chutou distancia: {dist_gol:.2f}", file=terminal_debug)
+                #print(f"alvo: x={target.x():.2f}, y={target.y():.2f}", file=terminal_debug)
 
-            return self._dribble_forward(agent, sp)
+                agent.set_neck_action(NeckScanPlayers())
+
+                log.debug_client().set_target(target)
+                log.debug_client().add_message('minimal_kick_to_goal')
+            
+                return 
+            elif opp_min >= 5:
+                SmartKick(target, 0.3, 0.1, 1).execute(agent)
+                agent.set_neck_action(NeckScanPlayers())
+                return 
+            else:
+                passe = BhvPassGen().generator(wm)
+                if len(passe) > 0:
+                    melhor_passe = max(passe)
+                    #print(f"passou valor: {melhor_passe}", file=terminal_debug)
+                    SmartKick(melhor_passe.target_ball_pos, melhor_passe.start_ball_speed, melhor_passe.start_ball_speed*0.6, 3).execute(agent)
+                    agent.set_neck_action(NeckScanPlayers())
+                    return True
+            return True
+
+        #log.debug_client().set_target(wm.ball().pos())
+       # log.debug_client().add_message('minimal_go_to_ball')
 
         if Intercept().execute(agent):
             agent.set_neck_action(NeckTurnToBall())
@@ -56,8 +80,8 @@ class BhvGoToBallAndKick:
         return True
 
     def _should_shoot(self, wm, sp):
-        # Chuta quando a bola ja esta perto da area adversaria ou do gol.
-        # Antes disso, o comportamento tenta conduzir a bola.
+        # Funcao auxiliar da nossa implementacao: identifica quando a bola ja
+        # esta em regiao boa para finalizar. Nao substitui o fluxo principal.
         shoot_line_x = sp.their_penalty_area_line_x() - self.SHOOT_AREA_MARGIN
         goal_pos = sp.their_team_goal_pos()
         return wm.ball().pos().x() >= shoot_line_x or wm.self().pos().dist(goal_pos) < 20.0
@@ -78,25 +102,6 @@ class BhvGoToBallAndKick:
 
         SmartKick(target, self.DRIBBLE_SPEED, self.DRIBBLE_SPEED * 0.7, 2).execute(agent)
         agent.set_neck_action(NeckTurnToBall())
-        return True
-
-    def _try_pass_under_pressure(self, agent: 'PlayerAgent'):
-        wm = agent.world()
-        pass_candidates = BhvPassGen().generator(wm)
-        if len(pass_candidates) == 0:
-            return False
-
-        best_pass = max(pass_candidates)
-        log.debug_client().set_target(best_pass.target_ball_pos)
-        log.debug_client().add_message('pass_under_pressure')
-
-        SmartKick(
-            best_pass.target_ball_pos,
-            best_pass.start_ball_speed,
-            best_pass.start_ball_speed * 0.6,
-            3,
-        ).execute(agent)
-        agent.set_neck_action(NeckScanPlayers())
         return True
 
     def _shoot_to_best_goal_target(self, agent: 'PlayerAgent', sp):
