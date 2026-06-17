@@ -5,7 +5,7 @@ from lib.debug.debug import log
 
 
 parser = argparse.ArgumentParser(description='Run a player or a coach')
-parser.add_argument('--player', action='store_true', help='Run a player', default=True)
+parser.add_argument('--player', action='store_true', help='Run a player')
 parser.add_argument('--coach', action='store_true', help='Run a coach')
 parser.add_argument('--goalie', action='store_true', help='Run a goalie')
 parser.add_argument('-t', '--team-name', help='Team name to display')
@@ -27,15 +27,12 @@ import sys
 
         
 def main():
-    if args.player:      
-        agent = SamplePlayer()
-    elif args.coach:
+    if args.coach:
         agent = SampleCoach()
     elif args.goalie:
         agent = SamplePlayer(True)
     else:
-        print("Please specify --player or --coach")
-        return
+        agent = SamplePlayer()
         
     if not agent.handle_start():
         agent.handle_exit()

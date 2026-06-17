@@ -12,7 +12,6 @@ from base.generator_action import KickAction
 from base.generator_pass import BhvPassGen
 from base.set_play.bhv_goalie_set_play import Bhv_GoalieSetPlay
 from lib.action.go_to_point import GoToPoint
-from lib.action.hold_ball import HoldBall
 from lib.action.intercept import Intercept
 from lib.action.neck_scan_players import NeckScanPlayers
 from lib.action.neck_turn_to_ball import NeckTurnToBall
@@ -62,8 +61,17 @@ def do_kick(agent: 'PlayerAgent'):
     action_candidates = BhvPassGen().generator(wm)
 
     if len(action_candidates) == 0:
+        # Sem companheiro livre para passe, o goleiro afasta a bola para frente.
+        # Isso evita que ele fique parado segurando a bola quando ja pode chutar.
+        sp = ServerParam.i()
+        target = sp.their_team_goal_pos()
+        first_speed = sp.ball_speed_max()
+
+        log.debug_client().set_target(target)
+        log.debug_client().add_message('goalie_clear_forward')
+        SmartKick(target, first_speed, first_speed * 0.8, 3).execute(agent)
         agent.set_neck_action(NeckScanPlayers())
-        return HoldBall().execute(agent)
+        return True
 
     best_action: KickAction = max(action_candidates)
     target = best_action.target_ball_pos
