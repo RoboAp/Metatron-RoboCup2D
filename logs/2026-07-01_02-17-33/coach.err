@@ -1,0 +1,79 @@
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (sample coach subsititute to) player(1)'s type changed to 0
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (sample coach subsititute to) player(11)'s type changed to 1
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (sample coach subsititute to) player(2)'s type changed to 2
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (sample coach subsititute to) player(3)'s type changed to 3
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (sample coach subsititute to) player(10)'s type changed to 12
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (sample coach subsititute to) player(9)'s type changed to 4
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (sample coach subsititute to) player(6)'s type changed to 5
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (sample coach subsititute to) player(4)'s type changed to 6
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (sample coach subsititute to) player(5)'s type changed to 8
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (sample coach subsititute to) player(7)'s type changed to 13
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (sample coach subsititute to) player(8)'s type changed to 9
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=1
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=11
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=2
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=3
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=10
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=9
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=6
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=4
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=5
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=7
+2026-07-01 02:17:49 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=8
+2026-07-01 02:18:04 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=1
+2026-07-01 02:18:04 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=11
+2026-07-01 02:18:04 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=2
+2026-07-01 02:18:04 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=3
+2026-07-01 02:18:04 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=10
+2026-07-01 02:18:04 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=9
+2026-07-01 02:18:04 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=6
+2026-07-01 02:18:04 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=4
+2026-07-01 02:18:04 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=5
+2026-07-01 02:18:04 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=7
+2026-07-01 02:18:04 Inspiron-555 mylogger[6070] ERROR (change player type) unum or side is not standard. side=SideID.NEUTRAL unum=8
+Traceback (most recent call last):
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/main.py", line 49, in <module>
+    main()
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/main.py", line 41, in main
+    agent.run()
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/lib/coach/coach_agent.py", line 159, in run
+    self.parse_message(message.decode())
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/lib/coach/coach_agent.py", line 191, in parse_message
+    self.hear_parser(message)
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/lib/coach/coach_agent.py", line 95, in hear_parser
+    self.hear_referee_parser(message)
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/lib/coach/coach_agent.py", line 109, in hear_referee_parser
+    self._game_mode.update(mode, self._current_time)
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/lib/rcsc/game_mode.py", line 110, in update
+    game_mode = GameModeType(mode)
+                ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/enum.py", line 757, in __call__
+    return cls.__new__(cls, value)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/enum.py", line 1171, in __new__
+    raise ve_exc
+ValueError: 'time_up' is not a valid GameModeType
+2026-07-01 02:31:12 Inspiron-555 mylogger[6070] ERROR Error: 'time_up' is not a valid GameModeType
+2026-07-01 02:31:12 Inspiron-555 mylogger[6070] ERROR Traceback (most recent call last):
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/main.py", line 49, in <module>
+    main()
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/main.py", line 41, in main
+    agent.run()
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/lib/coach/coach_agent.py", line 159, in run
+    self.parse_message(message.decode())
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/lib/coach/coach_agent.py", line 191, in parse_message
+    self.hear_parser(message)
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/lib/coach/coach_agent.py", line 95, in hear_parser
+    self.hear_referee_parser(message)
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/lib/coach/coach_agent.py", line 109, in hear_referee_parser
+    self._game_mode.update(mode, self._current_time)
+  File "/home/plinio/Documentos/Metatron-RoboCup2D/lib/rcsc/game_mode.py", line 110, in update
+    game_mode = GameModeType(mode)
+                ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/enum.py", line 757, in __call__
+    return cls.__new__(cls, value)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/enum.py", line 1171, in __new__
+    raise ve_exc
+ValueError: 'time_up' is not a valid GameModeType
+

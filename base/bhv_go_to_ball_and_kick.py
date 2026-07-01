@@ -24,7 +24,7 @@ class BhvGoToBallAndKick:
     def execute(self, agent: 'PlayerAgent'):
         wm = agent.world()
         sp = ServerParam.i()
-        #terminal_debug = open('/dev/pts/4', 'w')
+        #terminal_debug = open('/dev/pts/3', 'w')
 
         if not wm.ball().pos_valid():
             log.debug_client().add_message('minimal_scan_ball')
@@ -42,8 +42,6 @@ class BhvGoToBallAndKick:
                 SmartKick(target, 2, 2 * 0.6, 3).execute(agent)
                         
                 #print(f"chutou distancia: {dist_gol:.2f}", file=terminal_debug)
-                #print(f"alvo: x={target.x():.2f}, y={target.y():.2f}", file=terminal_debug)
-
                 agent.set_neck_action(NeckScanPlayers())
 
                 log.debug_client().set_target(target)
@@ -57,15 +55,13 @@ class BhvGoToBallAndKick:
             else:
                 passe = BhvPassGen().generator(wm)
                 if len(passe) > 0:
-                    melhor_passe = max(passe)
-                    #print(f"passou valor: {melhor_passe}", file=terminal_debug)
+                    melhor_passe = max(passe, key=lambda p: p.eval)
+                    #print(f"Jogador {melhor_passe.target_unum} | pos: ({melhor_passe.target_ball_pos.x():.2f}, {melhor_passe.target_ball_pos.y():.2f}) | Forca: {melhor_passe.start_ball_speed:.2f}\n", file=terminal_debug)
+                    
                     SmartKick(melhor_passe.target_ball_pos, melhor_passe.start_ball_speed, melhor_passe.start_ball_speed*0.6, 3).execute(agent)
                     agent.set_neck_action(NeckScanPlayers())
                     return True
             return True
-
-        #log.debug_client().set_target(wm.ball().pos())
-       # log.debug_client().add_message('minimal_go_to_ball')
 
         if Intercept().execute(agent):
             agent.set_neck_action(NeckTurnToBall())

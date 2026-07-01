@@ -274,7 +274,7 @@ class BhvPassGen(BhvKickGen):
         min_angle = -30
         max_angle = 30
         angle_step = 10
-        dist_divs = 25
+        dist_divs = 10
         dist_step = 1.0
 
         ptype = receiver.player_type()
@@ -377,6 +377,12 @@ class BhvPassGen(BhvKickGen):
                     min_step, max_step, min_first_ball_speed, max_first_ball_speed,
                     min_receive_ball_speed, max_receive_ball_speed,
                     ball_move_dist, ball_move_angle: AngleDeg, description):
+        if ball_move_dist < 15.0:
+            max_first_ball_speed = min(max_first_ball_speed, 1.0)
+        elif ball_move_dist < 25.0:
+            max_first_ball_speed = min(max_first_ball_speed, 2.0)
+        else:
+            max_first_ball_speed = min(max_first_ball_speed, 2.5)
         sp = SP.i()
 
         for step in range(min_step, max_step + 1):
